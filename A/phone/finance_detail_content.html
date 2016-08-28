@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="society_index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver">
+            <div class="list">
+                <span class="ulev-1">类型：<span id="type"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">金额：<span id="money"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">日期：<span id="date"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">支出申报人/收入来源：<span id="associate"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">收支说明：<span id="desc"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">记录人：<span id="recorder"></span></span>
+            </div>
+        </div>
+        
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+            getFinanceDetail();
+        })
+        appcan.window.openToast({
+                    msg:'各字段不能为空！',
+                    duration:2000
+                    });
+        function getFinanceDetail() {
+            var f_id = appcan.locStorage.getVal("f_id");
+            
+            var request = appcan.require('request');
+       
+            request.ajax({
+                 type : 'POST',
+                  url : appcan.locStorage.getVal("URLBase")+'/finance_detail.jsp',
+                  data : {
+                      'f_id' : f_id
+                  },
+                  dataType:"json",
+                   success : function (rtn) {
+            document.getElementById("type").innerHTML = rtn.type;
+            document.getElementById("money").innerHTML = rtn.money;
+             document.getElementById("date").innerHTML = rtn.date.substring(0,10);
+            document.getElementById("associate").innerHTML = rtn.associate;
+            document.getElementById("desc").innerHTML = rtn.desc;
+            document.getElementById("recorder").innerHTML = rtn.recorder;
+            if(rtn.desc!=null&&rtn.desc!="null"){
+                document.getElementById("desc").innerHTML = rtn.desc;
+            }
+          }
+        })
+     }
+    </script>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub-f1 tx-l ub ub-ver c-wh">
+            <div class="umh1"></div>
+            <form>
+                <div class="umar-a uba bc-border">
+                    <div class="ub ub-ac ubb umh5 bc-border ">
+                        <div class=" uinput ub ub-f1">
+                            <div class="uinn fa fa-user sc-text"></div>
+                            <input placeholder="社团ID" type="text" class="ub-f1" id="st_id">
+                        </div>
+                    </div>
+                    <div class="ub ub-ac umh5 bc-border ">
+                        <div class=" uinput ub ub-f1">
+                            <div class="uinn fa fa-lock sc-text"></div>
+                            <input placeholder="密码" type="password" class="umw4 ub-f1" id="st_pass">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="uinn">
+                    <div class="btn ub ub-ac bc-text-head ub-pc bc-btn uc-a1"  id="submit">
+                        登录
+                    </div>
+                </div>
+                <div class="uinn">
+                    <div class="btn ub ub-ac bc-text-head ub-pc bc-btn uc-a1"  id="register">
+                       开通新社团
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+        })
+         appcan.button("#submit", "ani-act", function() {
+             var st_id = document.getElementById("st_id").value;
+             var st_pass = document.getElementById("st_pass").value;
+             if(st_id==""||st_pass==""){
+                 appcan.window.openToast({
+                  msg:'ID和密码不能为空！',
+                    duration:2000
+                     });
+         }else{
+             var request = appcan.require('request');
+                request.ajax({
+                    type : 'POST',
+                    url : appcan.locStorage.getVal("URLBase")+'/society_login.jsp',
+                    data : {
+                        'st_id' : st_id,
+                        'pass' : st_pass
+                    },
+                    success : function (rtn) {
+                        if(rtn=="true"){
+                            appcan.locStorage.setVal("st_id",st_id);
+                            uexWindow.open('main','0','main.html',2,'','',0,500);
+                        }else{
+                            appcan.window.openToast({
+                            msg:'ID或密码错误！',
+                            duration:2000
+                            });
+                            
+                        }
+                     }
+                  })
+             }
+        })
+         appcan.button("#register", "ani-act", function() {
+            uexWindow.open('society_reg','0','society_reg.html',2,'','',0,500);
+        })
+
+
+    </script>
+</html>

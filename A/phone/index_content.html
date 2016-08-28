@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver">
+            <div class="ub-img1 accban uh-acc1 ub-fh ub ub-ver">
+                <div class="uinn-a1 ub ub-f1">
+                    <div class="uwh-acc1 uc-a1 uba b-wh-acc1 us-acc1 accuser mar-ar1"></div>
+                    <div class="ub-f1 ub ub-ver">
+                        <div class="ub ">         
+                        </div>
+                     </div>
+                </div>
+
+            </div>
+            <div class="ub-f1 ub ub-ver">
+                <div class="ub bc-text">
+                    <div class="ub-f1 ub ub-ver ub-ac ub-pc" onclick="community()">
+                        <div class="ub-img uwh-acc2 accIcon1 umar-at1"></div>
+                        <div class="ulev-1 umar-t-acc1">
+                            社团服务平台
+                        </div>
+                    </div>
+                    <div class="ub-f1 ub ub-ver ub-ac ub-pc" onclick="admin()">
+                        <div class="ub-img uwh-acc2 accIcon2 umar-at1"></div>
+                        <div class="ulev-1 umar-t-acc1">
+                            管理员登陆
+                        </div>
+                    </div>
+
+                <div class="ub bc-text">
+
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+        })
+        function community () {
+            uexWindow.open('index_main','0','index_main.html',2,'','',0,500);
+          
+        }
+        function admin () {
+            uexWindow.open('admin','0','admin.html',2,'','',0,500);
+          
+        }
+         function tourist () {
+            uexWindow.open('tourist','0','tourist.html',2,'','',0,500);
+          
+        }
+
+    </script>
+</html>

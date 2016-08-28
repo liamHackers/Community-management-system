@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="society_reg_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver uinn-a1">
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac">
+                <div class="ulev-app1 umw4">
+                    社团名称：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="校园网协会" type="text" class="ub-f1" id="name">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    所在城市：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="广东广州" type="text" class="ub-f1" id="city">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    所属院校：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="广东药科大学" type="text" class="ub-f1" id="school">
+                    </div>
+                </div>
+            </div>
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    联系人姓名：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="陈小生" type="text" class="ub-f1" id="lx_name">
+                    </div>
+                </div>
+            </div>
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    联系人电话：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="18922292506" type="text" class="ub-f1" id="lx_phone">
+                    </div>
+                </div>
+            </div>
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    联系人邮箱：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="754798989@qq.com" type="text" class="ub-f1" id="lx_email">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    联系人QQ：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="754798989" type="text" class="ub-f1" id="lx_qq">
+                    </div>
+                </div>
+            </div>
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    简要说明：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <textarea placeholder="校园网协会，成立于..." class="ub-f1" id="desc"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="ub ub-ver">
+                <div class="uinn-at1">
+                    <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="submit">
+                        确认提交
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/appcan.listview.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+             getSocietyDetail();
+        })
+        
+         function getSocietyDetail() {
+            var st_id = appcan.locStorage.getVal("st_id");
+            
+            var request = appcan.require('request');
+            request.ajax({
+                 type : 'POST',
+                  url : appcan.locStorage.getVal("URLBase")+'/society_detail.jsp',
+                  data : {
+                      'st_id' : st_id
+                  },
+                  dataType:"json",
+                   success : function (rtn) {
+            document.getElementById("name").value = rtn.name;
+            document.getElementById("city").value = rtn.city;
+            document.getElementById("school").value = rtn.school;
+            document.getElementById("lx_name").value = rtn.lx_name;
+            document.getElementById("lx_phone").value = rtn.lx_phone;
+            document.getElementById("lx_email").value = rtn.lx_email;
+            document.getElementById("lx_qq").value = rtn.lx_qq;
+            document.getElementById("desc").innerHTML = rtn.desc;
+            }
+           })          
+        }
+        appcan.button("#submit", "ani-act", function() {
+            
+            var st_id = appcan.locStorage.getVal("st_id");
+            var name = document.getElementById("name").value;
+            var city = document.getElementById("city").value;
+            var school = document.getElementById("school").value;
+            var lx_name = document.getElementById("lx_name").value;
+            var lx_phone = document.getElementById("lx_phone").value;
+            var lx_email = document.getElementById("lx_email").value;
+            var lx_qq = document.getElementById("lx_qq").value;
+            var desc = document.getElementById("desc").value;
+            
+            if(name==""||city==""||school==""||lx_name==""||lx_phone==""||lx_email==""||lx_qq==""||desc==""){
+                appcan.window.openToast({
+                    msg:'各字段不能为空！',
+                    duration:2000
+                    });
+            }else{
+                
+                var request = appcan.require('request');
+                request.ajax({
+                    type : 'POST',
+                    url : appcan.locStorage.getVal("URLBase")+'/society_edit_info.jsp',
+                    data : {
+                        'st_id' : st_id,
+                        'name' : name,
+                        'city' : city,
+                        'school' : school,
+                        'lx_name' : lx_name,
+                        'lx_phone' : lx_phone,
+                        'lx_email' : lx_email,
+                        'lx_qq' : lx_qq,
+                        'desc' : desc
+                    },
+                    success : function (rtn) {
+                        if(rtn=="true"){
+                        appcan.window.alert({
+                            title : "修改社团信息",
+                            content : "修改成功！",
+                            buttons : ['确定'],
+                            callback : function(err,data,dataType,optId){
+                            uexWindow.evaluatePopoverScript("society_index","content","getSocietyDetail()");
+                            uexWindow.evaluateScript("society_edit_info",0,"appcan.window.close(-1)");
+                             }
+                        });
+                     }
+                   }
+                })
+             }
+          })                
+            
+    
+    </script>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="finance_index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-hor ub-f1 ulev-1 uinn ub-ac c-gra1 txtcolor">
+            <div class="ub-f1 ub-con ub-ac ub-pc ub">
+                事务标题
+            </div>
+            <div class="umw1"></div>
+            <div class="ub-f1 ub-con ub-ac ub-pc ub">
+                负责人
+            </div>
+            <div class="umw1"></div>
+            <div class="ub-f1 ub-con ub-ac ub-pc ub">
+                事务日期时间
+            </div>
+            <div class="umw1"></div>
+            <div class="ub-f1 ub-con ub-ac ub-pc ub">
+                操作
+            </div>
+        </div>
+        <div id="ls">
+        </div>
+    </body>
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+            listTransaction();
+        });
+        function listTransaction(){
+            var st_id = appcan.locStorage.getVal("st_id");
+            var request = appcan.require('request');
+                 request.ajax({
+                    type : 'POST',
+                    url : appcan.locStorage.getVal("URLBase")+'/transaction_list.jsp',
+                    data : {
+                        'st_id' : st_id                        
+                    },
+                    dataType:"json",
+                    success : function (rtn) {
+                        var str = "";
+                        for(var i=0;i<rtn.length;i++){
+                            if(i%2==0){
+                            str+="<div class='ub ub-hor ub-f1 ulev-1 uinn ub-ac bo-border ubb umh4'>";
+                            }else{
+                            str+="<div class='ub ub-hor ub-f1 ulev-1 uinn ub-ac bo-border ubb c-gra1 umh4'>";
+                            }
+                            str += "<div class='ub-f1 ub-con ub-ac ub-pc ub'>"+rtn[i].t_title+"</div>"
+                            + "<div class='umw1'></div><div class='ub-f1 ub-con ub-ac ub-pc ub'>"
+                            +rtn[i].t_director+"</div><div class='umw1'></div><div class='ub-f1 ub-con ub-ac ub-pc ub'>"
+                            +rtn[i].t_time+"</div><div class='umw1'></div><div class='ub-f1 ub-con ub-ac ub-pc ub'><a href=\"javascript:"+"do_detail('"+rtn[i].t_id+"')\">查</a>&nbsp;&nbsp;<a href=\"javascript:do_edit('"
+                            +rtn[i].t_id+"')\">改</a>&nbsp;&nbsp;<a href=\"javascript:"
+                            +"do_delete('"+rtn[i].t_id+"')\">删</a></div></div>";
+                        }if(rtn.length==0){
+                             document.getElementById("ls").innerHTML ="<div class='ub ub-hor ub-f1 ulev-1 uinn ub-ac bc-border ubb umh4'>暂无记录</div>";
+                        }else{
+                            document.getElementById("ls").innerHTML = str;
+                        }
+                    }
+                })   
+        }
+        function do_detail(t_id) {
+            appcan.locStorage.setVal("t_id",t_id);
+            uexWindow.open('transaction_detail','0','transaction_detail.html',2,'','',0,500);
+        }
+        function do_edit(t_id) {
+            appcan.locStorage.setVal("t_id",t_id);
+            uexWindow.open('transaction_edit','0','transaction_edit.html',2,'','',0,500);
+        }
+        function do_delete(t_id) {
+            appcan.window.alert({
+                title : "删除事务信息",
+                content : "您确定要删除此财务信息？",
+                buttons : ['确定','取消'],
+                callback : function(err,data,dataType,optId){
+                    if(data==0){
+                        var request = appcan.require('request');
+                        request.ajax({
+                    type : 'POST',
+                    url : appcan.locStorage.getVal("URLBase")+'/transaction_del.jsp',
+                    data : {
+                        't_id' : t_id                        
+                    },
+                    success : function (rtn) {
+                        if(rtn=="true"){
+                            appcan.window.alert({
+                                title : "删除事务信息",
+                                content :　"删除成功！",
+                                buttons : ['确定'],
+                                callback : function(err,data,dataType,opId){
+                                    listTransaction();
+                                }
+                            });
+                        }
+                      }
+                    })
+                  }
+                }
+            });
+        }
+    </script>
+</html>

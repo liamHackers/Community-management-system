@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="society_reg_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver uinn-a1">
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac">
+                <div class="ulev-app1 umw4">
+                   输入旧密码：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="请输入旧密码" type="password" class="ub-f1" id="pass1">
+                    </div>
+                </div>
+            </div>
+            <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    输入新密码：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="请输入新密码" type="password" class="ub-f1" id="pass2">
+                    </div>
+                </div>
+            </div>
+                    <div class="uba b-gra3 uc-a1 c-wh ub uinn-a7 ub-ac umar-at1">
+                <div class="ulev-app1 umw4">
+                    确认新密码：
+                </div>
+                <div class="ub ub-ac umh5 ub-f1">
+                    <div class="uinput ub ub-f1">
+                        <input placeholder="请 确认新密码" type="password" class="ub-f1" id="pass3">
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="ub ub-ver">
+                <div class="uinn-at1">
+                    <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="submit">
+                        确认提交
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/appcan.listview.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+        })
+        appcan.button("#submit", "ani-act", function() {
+             
+            var st_id = appcan.locStorage.getVal("st_id");
+            var pass1 = document.getElementById("pass1").value;
+            var pass2 = document.getElementById("pass2").value;
+            var pass3 = document.getElementById("pass3").value;
+            
+            if(pass1==""||pass2==""||pass3==""){
+                 appcan.window.openToast({
+                    msg:'各字段不能为空！',
+                    duration:2000
+                    });
+            }else if(pass2!=pass3){
+                 appcan.window.openToast({
+                    msg:'两次密码不一致！',
+                    duration:2000
+                    });
+            }else{
+                var request = appcan.require('request');
+                 request.ajax({
+                    type : 'POST',
+                    url : appcan.locStorage.getVal("URLBase")+'/society_edit_pass.jsp',
+                    data : {
+                        'st_id' : st_id,
+                        'old_pass' : pass1,
+                        'new_pass' : pass2
+                    },
+                    success : function (rtn) {
+                        if(rtn=="true"){
+                        appcan.window.alert({
+                            title : "修改管理密码",
+                            content : "修改成功！",
+                            buttons : ['确定'],
+                            callback : function(err,data,dataType,optId){
+                            uexWindow.evaluateScript("society_edit_pass",0,"appcan.window.close(-1)");
+                             }
+                        });
+            }else{
+                appcan.window.openToast({
+                    msg:'旧密码错误！',
+                    duration:2000
+                    });
+                }           
+              }
+            })
+          }
+        })
+    </script>
+</html>

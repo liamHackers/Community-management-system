@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="society_index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver">
+            <div class="list">
+                <span class="ulev-1">社团ID：<span id="st_id"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">社团名称：<span id="name"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">所在城市：<span id="city"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">所属院校：<span id="school"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">联系人姓名：<span id="lx_name"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">联系人电话：<span id="lx_phone"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">联系人邮箱：<span id="lx_email"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">联系人QQ：<span id="lx_qq"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">注册时间：<span id="addtime"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">简要说明：<span id="desc"></span></span>
+            </div>
+        </div>
+        <div class="callbtnbox" style="padding-bottom: 0">
+            <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="btn1">
+                修改社团信息
+            </div>
+        </div>
+   <div class="callbtnbox" >
+            <div class="btn ub ub-ac bc-text-head ub-pc bc-btn"  id="btn2">
+                修改管理密码
+            </div>
+        </div>
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+            getSocietyDetail();
+        })
+        function getSocietyDetail() {
+            var st_id = appcan.locStorage.getVal("st_id");
+            
+            var request = appcan.require('request');
+            request.ajax({
+                 type : 'POST',
+                  url : appcan.locStorage.getVal("URLBase")+'/society_detail.jsp',
+                  data : {
+                      'st_id' : st_id
+                  },
+                  dataType:"json",
+                   success : function (rtn) {
+            document.getElementById("st_id").innerHTML = rtn.st_id;
+            document.getElementById("name").innerHTML = rtn.name;
+            document.getElementById("city").innerHTML = rtn.city;
+            document.getElementById("school").innerHTML = rtn.school;
+            document.getElementById("lx_name").innerHTML = rtn.lx_name;
+            document.getElementById("lx_phone").innerHTML = rtn.lx_phone;
+            document.getElementById("lx_email").innerHTML = rtn.lx_email;
+            document.getElementById("lx_qq").innerHTML = rtn.lx_qq;
+            document.getElementById("addtime").innerHTML = rtn.addtime.substring(0,10);
+            document.getElementById("desc").innerHTML = rtn.desc;
+            }
+           })          
+        }
+         appcan.button("#btn1", "ani-act", function() {
+            uexWindow.open('society_edit_info','0','society_edit_info.html',2,'','',0,500);
+        })
+        appcan.button("#btn2", "ani-act", function() {
+            uexWindow.open('society_edit_pass','0','society_edit_pass.html',2,'','',0,500);
+        })
+    </script>
+</html>

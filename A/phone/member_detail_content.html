@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="society_index_content/css/main.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div class="ub ub-ver">
+            <div class="list">
+                <span class="ulev-1">姓名：<span id="name"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">性别：<span id="sex"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">院系-专业：<span id="major"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">宿舍：<span id="dorm"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">QQ：<span id="qq"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">邮箱：<span id="email"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">电话：<span id="phone"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">部门：<span id="dept"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">职务：<span id="post"></span></span>
+            </div>
+            <div class="list">
+                <span class="ulev-1">会费缴交情况：<span id="money"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">会员状态：<span id="state"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">入会时间：<span id="addtime"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">毕/退时间：<span id="leavetime"></span></span>
+            </div>
+                        <div class="list">
+                <span class="ulev-1">备注：<span id="desc"></span></span>
+            </div>
+        </div>
+        
+        <script src="js/appcan.js"></script>
+        <script src="js/appcan.control.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.initBounce();
+            getMemberDetail();
+        })
+        appcan.window.openToast({
+                    msg:'各字段不能为空！',
+                    duration:2000
+                    });
+        function getMemberDetail() {
+            var m_id = appcan.locStorage.getVal("m_id");
+            
+            var request = appcan.require('request');
+       
+            request.ajax({
+                 type : 'POST',
+                  url : appcan.locStorage.getVal("URLBase")+'/member_detail.jsp',
+                  data : {
+                      'm_id' : m_id
+                  },
+                  dataType:"json",
+                   success : function (rtn) {
+            document.getElementById("name").innerHTML = rtn.name;
+            document.getElementById("sex").innerHTML = rtn.sex;
+            document.getElementById("major").innerHTML = rtn.major;
+            document.getElementById("dorm").innerHTML = rtn.dorm;
+            document.getElementById("qq").innerHTML = rtn.qq;
+            document.getElementById("email").innerHTML = rtn.email;
+            document.getElementById("phone").innerHTML = rtn.phone;
+            document.getElementById("dept").innerHTML = rtn.dept;
+            document.getElementById("post").innerHTML = rtn.post;
+            document.getElementById("money").innerHTML = rtn.money;
+            document.getElementById("addtime").innerHTML = rtn.addtime.substring(0,10);            
+            document.getElementById("state").innerHTML = rtn.state;
+            if(rtn.leavetime!=null&&rtn.leavetime!="null"){
+                document.getElementById("leavetime").innerHTML = rtn.leavetime.substring(0,10);
+            }
+            if(rtn.desc!=null&&rtn.desc!="null"){
+                document.getElementById("desc").innerHTML = rtn.desc;
+            }
+          }
+        })
+     }
+    </script>
+</html>
